@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace InfoDengue.Domain.Models
+namespace InfoDisease.Domain.Models
 {
-    public class AlertaDengueAPI
+    public class AlertDiseaseAPI
     {
         [JsonPropertyName("data_iniSE")]
         public DateTime DataIniSE { get; set; }

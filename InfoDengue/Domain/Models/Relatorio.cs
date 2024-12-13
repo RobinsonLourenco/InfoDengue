@@ -1,4 +1,4 @@
-﻿namespace InfoDengue.Domain.Models
+﻿namespace InfoDisease.Domain.Models
 {
     public class Relatorio
     {
