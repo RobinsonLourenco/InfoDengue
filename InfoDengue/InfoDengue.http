@@ -1,0 +1,6 @@
+@InfoDengue_HostAddress = http://localhost:5249
+
+GET {{InfoDengue_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
