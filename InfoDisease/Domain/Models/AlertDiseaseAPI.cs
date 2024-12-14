@@ -2,10 +2,10 @@
 
 namespace InfoDisease.Domain.Models
 {
-    public class AlertDiseaseAPI
+    public class AlertDiseaseApi
     {
         [JsonPropertyName("data_iniSE")]
-        public DateTime DataIniSE { get; set; }
+        public object DataIniSE { get; set; }
 
         [JsonPropertyName("SE")]
         public int SE { get; set; }
@@ -17,7 +17,7 @@ namespace InfoDisease.Domain.Models
         public int CasosEstMin { get; set; }
 
         [JsonPropertyName("casos_est_max")]
-        public int? CasosEstMax { get; set; }
+        public double? CasosEstMax { get; set; }
 
         [JsonPropertyName("casos")]
         public int Casos { get; set; }
@@ -35,19 +35,19 @@ namespace InfoDisease.Domain.Models
         public int Nivel { get; set; }
 
         [JsonPropertyName("id")]
-        public long Id { get; set; }
+        public object Id { get; set; }
 
         [JsonPropertyName("versao_modelo")]
-        public DateTime VersaoModelo { get; set; }
+        public string VersaoModelo { get; set; }
 
         [JsonPropertyName("tweet")]
-        public long Tweet { get; set; }
+        public object Tweet { get; set; }
 
         [JsonPropertyName("Rt")]
         public double Rt { get; set; }
 
         [JsonPropertyName("pop")]
-        public long Pop { get; set; }
+        public double Pop { get; set; }
 
         [JsonPropertyName("tempmin")]
         public double Tempmin { get; set; }
@@ -77,19 +77,19 @@ namespace InfoDisease.Domain.Models
         public double Tempmax { get; set; }
 
         [JsonPropertyName("casprov")]
-        public int Casprov { get; set; }
+        public double? Casprov { get; set; }
 
         [JsonPropertyName("casprov_est")]
-        public double CasprovEst { get; set; }
+        public object CasprovEst { get; set; }
 
         [JsonPropertyName("casprov_est_min")]
-        public double CasprovEstMin { get; set; }
+        public object CasprovEstMin { get; set; }
 
         [JsonPropertyName("casprov_est_max")]
-        public double CasprovEstMax { get; set; }
+        public object CasprovEstMax { get; set; }
 
         [JsonPropertyName("casconf")]
-        public double Casconf { get; set; }
+        public object Casconf { get; set; }
 
         [JsonPropertyName("notif_accum_year")]
         public int NotifAccumYear { get; set; }

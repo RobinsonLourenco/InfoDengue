@@ -8,7 +8,7 @@ namespace InfoDisease.Domain.Models
         public HttpStatusCode HttpCode { get; set; }
         public bool Success { get; set; }
         public string Message { get; set; } = string.Empty;
-        public T? Data { get; set; }
+        public List<T>? Data { get; set; } = new List<T>();
         public ExpandoObject? Error { get; set; }
     }
 }
