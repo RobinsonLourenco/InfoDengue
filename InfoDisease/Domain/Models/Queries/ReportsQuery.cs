@@ -1,12 +1,7 @@
 ﻿namespace InfoDisease.Domain.Models.Queries
 {
-    public class ReportsQuery : Query
+    public class ReportsQuery(int? solicitanteId, int page, int itemsPerPage) : Query(page, itemsPerPage)
     {
-        public int? SolicitanteId { get; set; }
-
-        public ReportsQuery(int? solicitanteId, int page, int itemsPerPage) : base(page, itemsPerPage)
-        {
-            SolicitanteId = solicitanteId;
-        }
+        public int? SolicitanteId { get; set; } = solicitanteId;
     }
 }

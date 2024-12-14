@@ -1,5 +1,4 @@
-﻿using InfoDisease.Domain.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace InfoDisease.Controllers
 {
@@ -8,7 +7,7 @@ namespace InfoDisease.Controllers
     [ApiController]
     public class BaseApiController : ControllerBase
     {
-       
+
     }
 }
 

@@ -1,5 +1,5 @@
-﻿using InfoDengue.Interfaces;
-using InfoDisease.Domain.Models;
+﻿using InfoDisease.Domain.Models;
+using InfoDiseases.Interfaces;
 using System.Dynamic;
 using System.Text.Json;
 
@@ -9,9 +9,9 @@ namespace InfoDisease.API
     {
         public async Task<GenericResponse<Domain.Models.AlertDiseaseApi>> GetDiseaseAsync(AlertDiseaseParam alertDiseaseParam)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, @$"https://info.dengue.mat.br/api/alertcity?disease={alertDiseaseParam.disease}" +
-                                                                 $"&geocode={alertDiseaseParam.geoCode}&format=json&ew_start={alertDiseaseParam.ew_start}" +
-                                                                 $"&ew_end={alertDiseaseParam.ew_end}&ey_start={alertDiseaseParam.ey_start}&ey_end={alertDiseaseParam.ey_end}");
+            var request = new HttpRequestMessage(HttpMethod.Get, @$"https://info.dengue.mat.br/api/alertcity?disease={alertDiseaseParam.Disease}" +
+                                                                 $"&geocode={alertDiseaseParam.GeoCode}&format=json&ew_start={alertDiseaseParam.Ew_start}" +
+                                                                 $"&ew_end={alertDiseaseParam.Ew_end}&ey_start={alertDiseaseParam.Ey_start}&ey_end={alertDiseaseParam.Ey_end}");
 
             var response = new GenericResponse<Domain.Models.AlertDiseaseApi>();
 

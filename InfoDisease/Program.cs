@@ -2,7 +2,6 @@ using InfoDisease.Domain.Repositories;
 using InfoDisease.Persistence.Contexts;
 using InfoDisease.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(connectionString
 
 builder.Services.AddScoped<IRequestorRepository, RequestorRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
-
+builder.Services.AddScoped<IMunicipioRepository, MunicipioRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

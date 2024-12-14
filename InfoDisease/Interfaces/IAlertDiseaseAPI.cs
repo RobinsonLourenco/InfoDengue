@@ -1,6 +1,6 @@
 ﻿using InfoDisease.Domain.Models;
 
-namespace InfoDengue.Interfaces
+namespace InfoDiseases.Interfaces
 {
     public interface IAlertDiseaseApi
     {

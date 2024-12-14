@@ -1,22 +1,18 @@
-﻿using InfoDisease.API;
-using InfoDisease.Domain.Enums;
+﻿using InfoDisease.Domain.Enums;
 using InfoDisease.Domain.Models;
 using InfoDisease.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace InfoDisease.Controllers
 {
 
-    public class InfoDiseaseController(IReportRepository reportRepository, IRequestorRepository requestorRepository) : BaseApiController
+    public class InfoDiseaseController(IReportRepository reportRepository, IRequestorRepository requestorRepository, IMunicipioRepository municipioRepository) : BaseApiController
     {
         private readonly IReportRepository _reportRepository = reportRepository;
 
         private readonly IRequestorRepository _requestorRepository = requestorRepository;
 
+        private readonly IMunicipioRepository _municipioRepository = municipioRepository;
         /// <summary>
         /// Lista todas as Arboviroses dos municípios do RJ e SP.
         /// </summary>
@@ -65,12 +61,12 @@ namespace InfoDisease.Controllers
                 var disease = Enum.GetName(typeof(Disease), diseaseEnum) ?? string.Empty;
                 var alertDiseaseParam = new AlertDiseaseParam
                 {
-                    disease = disease,
-                    geoCode = "3304557",
-                    ew_start = ew_start,
-                    ew_end = ew_end,
-                    ey_start = ey_start,
-                    ey_end = ey_end
+                    Disease = disease,
+                    GeoCode = "3304557",
+                    Ew_start = ew_start,
+                    Ew_end = ew_end,
+                    Ey_start = ey_start,
+                    Ey_end = ey_end
                 };
                 var message = alert.GetDiseaseAsync(alertDiseaseParam);
                 var response = message.Result;
@@ -78,27 +74,39 @@ namespace InfoDisease.Controllers
                 if (response.Data != null)
                     diseaseList.AddRange(response.Data);
 
-                var report = new Report()
+                var reportRJ = new Report()
                 {
                     DataSolicitacao = DateTime.Now,
                     Arbovirose = disease,
-                    SemanaInicio = alertDiseaseParam.ew_start,
-                    SemanaTermino = alertDiseaseParam.ew_end,
-                    CodigoIBGE = alertDiseaseParam.geoCode,
+                    SemanaInicio = alertDiseaseParam.Ew_start,
+                    SemanaTermino = alertDiseaseParam.Ew_end,
+                    CodigoIBGE = alertDiseaseParam.GeoCode,
+                    Municipio = GetMunicipio(alertDiseaseParam.GeoCode).GetAwaiter().GetResult(),
                     SolicitanteId = solicitanteDb.SolicitanteId
                 };
 
-                SaveChangesReport(report).GetAwaiter().GetResult();
 
-                alertDiseaseParam.geoCode = "3550308";
+                SaveChangesReport(reportRJ).GetAwaiter().GetResult();
+
+                alertDiseaseParam.GeoCode = "3550308";
                 message = alert.GetDiseaseAsync(alertDiseaseParam);
                 response = message.Result;
 
                 if (response.Data != null)
                     diseaseList.AddRange(response.Data);
 
-                report.CodigoIBGE = alertDiseaseParam.geoCode;
-                SaveChangesReport(report).GetAwaiter().GetResult();
+                var reportSP = new Report()
+                {
+                    DataSolicitacao = DateTime.Now,
+                    Arbovirose = disease,
+                    SemanaInicio = alertDiseaseParam.Ew_start,
+                    SemanaTermino = alertDiseaseParam.Ew_end,
+                    CodigoIBGE = alertDiseaseParam.GeoCode,
+                    Municipio = GetMunicipio(alertDiseaseParam.GeoCode).GetAwaiter().GetResult(),
+                    SolicitanteId = solicitanteDb.SolicitanteId
+                };
+
+                SaveChangesReport(reportSP).GetAwaiter().GetResult();
             }
 
             return (IEnumerable<Domain.Models.AlertDiseaseApi>)diseaseList;
@@ -149,12 +157,12 @@ namespace InfoDisease.Controllers
             var alert = new API.AlertDiseaseApi();
             var alertDiseaseParam = new AlertDiseaseParam
             {
-                disease = disease,
-                geoCode = geoCode,
-                ew_start = ew_start,
-                ew_end = ew_end,
-                ey_start = ey_start,
-                ey_end = ey_end
+                Disease = disease,
+                GeoCode = geoCode,
+                Ew_start = ew_start,
+                Ew_end = ew_end,
+                Ey_start = ey_start,
+                Ey_end = ey_end
             };
             var message = alert.GetDiseaseAsync(alertDiseaseParam);
             var response = message.Result;
@@ -166,9 +174,10 @@ namespace InfoDisease.Controllers
             {
                 DataSolicitacao = DateTime.Now,
                 Arbovirose = disease,
-                SemanaInicio = alertDiseaseParam.ew_start,
-                SemanaTermino = alertDiseaseParam.ew_end,
-                CodigoIBGE = alertDiseaseParam.geoCode,
+                SemanaInicio = alertDiseaseParam.Ew_start,
+                SemanaTermino = alertDiseaseParam.Ew_end,
+                CodigoIBGE = alertDiseaseParam.GeoCode,
+                Municipio = GetMunicipio(alertDiseaseParam.GeoCode).GetAwaiter().GetResult(),
                 SolicitanteId = solicitanteDb.SolicitanteId
             };
 
@@ -202,12 +211,12 @@ namespace InfoDisease.Controllers
                 var disease = Enum.GetName(typeof(Disease), diseaseEnum) ?? string.Empty;
                 var alertDiseaseParam = new AlertDiseaseParam
                 {
-                    disease = disease,
-                    geoCode = "3304557",
-                    ew_start = ew_start,
-                    ew_end = ew_end,
-                    ey_start = ey_start,
-                    ey_end = ey_end
+                    Disease = disease,
+                    GeoCode = "3304557",
+                    Ew_start = ew_start,
+                    Ew_end = ew_end,
+                    Ey_start = ey_start,
+                    Ey_end = ey_end
                 };
                 var message = alert.GetDiseaseAsync(alertDiseaseParam);
                 var response = message.Result;
@@ -215,24 +224,38 @@ namespace InfoDisease.Controllers
                 if (response.Data != null)
                     diseaseCount += response.Data.Count;
 
-                alertDiseaseParam.geoCode = "3550308";
+                var reportRJ = new Report()
+                {
+                    DataSolicitacao = DateTime.Now,
+                    Arbovirose = disease,
+                    SemanaInicio = alertDiseaseParam.Ew_start,
+                    SemanaTermino = alertDiseaseParam.Ew_end,
+                    CodigoIBGE = alertDiseaseParam.GeoCode,
+                    Municipio = GetMunicipio(alertDiseaseParam.GeoCode).GetAwaiter().GetResult(),
+                    SolicitanteId = solicitanteDb.SolicitanteId
+                };
+
+                SaveChangesReport(reportRJ).GetAwaiter().GetResult();
+
+                alertDiseaseParam.GeoCode = "3550308";
                 message = alert.GetDiseaseAsync(alertDiseaseParam);
                 response = message.Result;
 
                 if (response.Data != null)
                     diseaseCount += response.Data.Count;
 
-                var report = new Report()
+                var reportSP = new Report()
                 {
                     DataSolicitacao = DateTime.Now,
                     Arbovirose = disease,
-                    SemanaInicio = alertDiseaseParam.ew_start,
-                    SemanaTermino = alertDiseaseParam.ew_end,
-                    CodigoIBGE = alertDiseaseParam.geoCode,
+                    SemanaInicio = alertDiseaseParam.Ew_start,
+                    SemanaTermino = alertDiseaseParam.Ew_end,
+                    CodigoIBGE = alertDiseaseParam.GeoCode,
+                    Municipio = GetMunicipio(alertDiseaseParam.GeoCode).GetAwaiter().GetResult(),
                     SolicitanteId = solicitanteDb.SolicitanteId
                 };
 
-                SaveChangesReport(report).GetAwaiter().GetResult();
+                SaveChangesReport(reportSP).GetAwaiter().GetResult();
             }
 
             return diseaseCount;
@@ -260,12 +283,12 @@ namespace InfoDisease.Controllers
             var alert = new API.AlertDiseaseApi();
             var alertDiseaseParam = new AlertDiseaseParam
             {
-                disease = disease,
-                geoCode = geoCode,
-                ew_start = ew_start,
-                ew_end = ew_end,
-                ey_start = ey_start,
-                ey_end = ey_end
+                Disease = disease,
+                GeoCode = geoCode,
+                Ew_start = ew_start,
+                Ew_end = ew_end,
+                Ey_start = ey_start,
+                Ey_end = ey_end
             };
             var message = alert.GetDiseaseAsync(alertDiseaseParam);
             var response = message.Result;
@@ -273,9 +296,10 @@ namespace InfoDisease.Controllers
             {
                 DataSolicitacao = DateTime.Now,
                 Arbovirose = disease,
-                SemanaInicio = alertDiseaseParam.ew_start,
-                SemanaTermino = alertDiseaseParam.ew_end,
-                CodigoIBGE = alertDiseaseParam.geoCode,
+                SemanaInicio = alertDiseaseParam.Ew_start,
+                SemanaTermino = alertDiseaseParam.Ew_end,
+                CodigoIBGE = alertDiseaseParam.GeoCode,
+                Municipio = GetMunicipio(alertDiseaseParam.GeoCode).GetAwaiter().GetResult(),
                 SolicitanteId = solicitanteDb.SolicitanteId
             };
 
@@ -307,26 +331,6 @@ namespace InfoDisease.Controllers
         {
             return _reportRepository.ListAsync().GetAwaiter().GetResult();
         }
-
-        // POST api/v1/<InfoDiseaseController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/v1/<InfoDiseaseController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-
-        }
-
-        // DELETE api/<InfoDiseaseController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
         private async Task<Requestor?> SaveChangesRequestor(string requestorName, string requestorCpf)
         {
             var solicitanteDb = await _requestorRepository.FindByCpfAsync(requestorCpf).ConfigureAwait(false);
@@ -345,7 +349,15 @@ namespace InfoDisease.Controllers
         private async Task SaveChangesReport(Report report)
         {
             await _reportRepository.AddAsync(report);
+
             _reportRepository.SaveChanges();
+        }
+
+        private async Task<string> GetMunicipio(string codIbge)
+        {
+            var municipio = await _municipioRepository.FindByCodIbgeAsync(codIbge).ConfigureAwait(false);
+
+            return municipio != null ? municipio.Nome : string.Empty;
         }
     }
 }

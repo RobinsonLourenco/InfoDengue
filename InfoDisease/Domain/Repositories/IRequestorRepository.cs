@@ -1,6 +1,4 @@
 ﻿using InfoDisease.Domain.Models;
-using InfoDisease.Domain.Models.Queries;
-using Microsoft.EntityFrameworkCore;
 
 namespace InfoDisease.Domain.Repositories
 {

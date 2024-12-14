@@ -1,6 +1,5 @@
-﻿using InfoDisease.Domain.Models.Queries;
-using InfoDisease.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using InfoDisease.Domain.Models;
+using InfoDisease.Domain.Models.Queries;
 
 namespace InfoDisease.Domain.Repositories
 {

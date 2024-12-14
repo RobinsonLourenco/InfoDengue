@@ -2,11 +2,11 @@
 {
     public class AlertDiseaseParam
     {
-        public string disease { get; set; }
-        public string geoCode { get; set; }
-        public required int ew_start { get; set; }
-        public required int ew_end { get; set; }
-        public required int ey_start { get; set; }
-        public required int ey_end { get; set; }
+        public string? Disease { get; set; }
+        public string? GeoCode { get; set; }
+        public required int Ew_start { get; set; }
+        public required int Ew_end { get; set; }
+        public required int Ey_start { get; set; }
+        public required int Ey_end { get; set; }
     }
 }

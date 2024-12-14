@@ -1,5 +1,5 @@
-﻿using InfoDisease.Domain.Models.Queries;
-using InfoDisease.Domain.Models;
+﻿using InfoDisease.Domain.Models;
+using InfoDisease.Domain.Models.Queries;
 using InfoDisease.Domain.Repositories;
 using InfoDisease.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -22,13 +22,13 @@ namespace InfoDisease.Persistence.Repositories
             {
                 queryable = queryable.Where(p => p.SolicitanteId == query.SolicitanteId);
             }
-            
+
             int totalItems = await queryable.CountAsync();
 
             List<Report> reports = await queryable.Skip((query.Page - 1) * query.ItemsPerPage)
                                                     .Take(query.ItemsPerPage)
                                                     .ToListAsync();
-           
+
             return new QueryResult<Report>
             {
                 Items = reports,
@@ -37,7 +37,7 @@ namespace InfoDisease.Persistence.Repositories
         }
 
         public async Task<Report?> FindByIdAsync(int id)
-            => await _context.Relatorio.Include(p => p.Solicitante).FirstOrDefaultAsync(p => p.SolicitanteId == id); 
+            => await _context.Relatorio.Include(p => p.Solicitante).FirstOrDefaultAsync(p => p.SolicitanteId == id);
 
         public async Task AddAsync(Report report)
             => await _context.Relatorio.AddAsync(report);

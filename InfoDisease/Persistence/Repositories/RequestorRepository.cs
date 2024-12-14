@@ -1,5 +1,4 @@
 ﻿using InfoDisease.Domain.Models;
-using InfoDisease.Domain.Models.Queries;
 using InfoDisease.Domain.Repositories;
 using InfoDisease.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;

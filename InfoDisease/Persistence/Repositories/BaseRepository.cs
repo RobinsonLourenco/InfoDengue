@@ -1,5 +1,4 @@
 ﻿using InfoDisease.Persistence.Contexts;
-using System;
 
 namespace InfoDisease.Persistence.Repositories
 {
