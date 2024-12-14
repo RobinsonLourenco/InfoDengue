@@ -10,6 +10,7 @@ namespace InfoDisease.Persistence.Contexts
     {
         public DbSet<Requestor> Solicitante { get; set; }
         public DbSet<Report> Relatorio { get; set; }
+        public DbSet<Municipio> Municipio { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -17,6 +18,7 @@ namespace InfoDisease.Persistence.Contexts
             modelBuilder.Entity<Requestor>().HasIndex(s => s.Cpf).IsUnique(); 
             modelBuilder.Entity<Requestor>().HasMany(s => s.reports).WithOne(r => r.Solicitante).HasForeignKey(r => r.SolicitanteId);
             modelBuilder.Entity<Report>().HasKey(p => p.RelatorioId);
+            modelBuilder.Entity<Municipio>().HasKey(p => p.CodigoIbge);
             base.OnModelCreating(modelBuilder);
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

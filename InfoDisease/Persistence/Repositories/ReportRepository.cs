@@ -9,6 +9,9 @@ namespace InfoDisease.Persistence.Repositories
 
     public class ReportRepository(AppDbContext context) : BaseRepository(context), IReportRepository
     {
+        public async Task<IEnumerable<Report>> ListAsync()
+            => await _context.Relatorio.AsNoTracking().ToListAsync();
+
         public async Task<QueryResult<Report>> ListAsync(ReportsQuery query)
         {
             IQueryable<Report> queryable = _context.Relatorio

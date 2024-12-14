@@ -293,13 +293,19 @@ namespace InfoDisease.Controllers
         [HttpGet(), Route("GetAllRequestor")]
         public IEnumerable<Domain.Models.Requestor> GetAllRequestor()
         {
-            var requestorList = new List<Domain.Models.Requestor>();
+            return _requestorRepository.ListAsync().GetAwaiter().GetResult();
+        }
 
-            foreach (var requestorDb in _requestorRepository.ListAsync().GetAwaiter().GetResult())
-            {
-                requestorList.Add(requestorDb);
-            }
-            return (IEnumerable<Domain.Models.Requestor>)requestorList;
+        /// <summary>
+        /// Listar todos os relatórios solicitados.
+        /// </summary> 
+        /// <returns>
+        /// Lista com todos os relatórios solicitados
+        /// </returns>
+        [HttpGet(), Route("GetAllReport")]
+        public IEnumerable<Domain.Models.Report> GetAllReport()
+        {
+            return _reportRepository.ListAsync().GetAwaiter().GetResult();
         }
 
         // POST api/v1/<InfoDiseaseController>

@@ -6,6 +6,7 @@ namespace InfoDisease.Domain.Repositories
 {
     public interface IReportRepository
     {
+        Task<IEnumerable<Report>> ListAsync();
         Task<QueryResult<Report>> ListAsync(ReportsQuery query);
         Task<Report?> FindByIdAsync(int id);
         Task AddAsync(Report report);
